@@ -1,0 +1,14 @@
+service: poetry-bot
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.8
+
+functions:
+  cron:
+    handler: handler.run
+    events:
+      # Invoke Lambda function every minute
+      - schedule: rate(1 minute)
