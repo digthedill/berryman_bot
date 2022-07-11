@@ -5,6 +5,10 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: python3.8
+  environment:
+    API_KEY: iHOcQs3mhQIix3gaDtUNLk1mk
+    API_KEY_SECRET: ${file(./secret.json):secret}
+    API_BEARER: ${file(./secret.json):bearer}
 
 functions:
   cron:
