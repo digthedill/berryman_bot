@@ -2,6 +2,9 @@ service: poetry-bot
 
 frameworkVersion: "3"
 
+plugins:
+  - serverless-python-requirements
+
 provider:
   name: aws
   runtime: python3.8
@@ -17,3 +20,6 @@ functions:
     events:
       # Invoke Lambda function every minute
       - schedule: rate(3 hour)
+custom:
+  pythonRequirements:
+    dockerizePip: true

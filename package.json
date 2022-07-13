@@ -5,6 +5,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "serverless-python-requirements": "^5.4.0",
     "serverless-stage-manager": "^1.0.5"
   }
 }
