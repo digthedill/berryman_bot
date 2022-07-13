@@ -3,7 +3,7 @@ from pprint import pprint
 import os
 import random
 import string
-
+import tweepy
 import requests
 
 content_path = "./content/sonnets.txt"
@@ -12,10 +12,19 @@ content_path = os.path.join(os.path.dirname(__file__), content_path)
 twitter_base_url = "https://api.twitter.com/1.1"
 
 
+auth = tweepy.OAuth1UserHandler(
+    os.environ["CONSUMER_KEY"],
+    os.environ["CONSUMER_KEY_SECRET"],
+    os.environ["ACCESS_TOKEN"],
+    os.environ["ACCESS_TOKEN_SECRET"]
+)
+api = tweepy.API(auth)
+
+
 def run(event, context):
     print("Berryman bot started")
 
-    payload = {}
+    payload = ""
 
     # parse content/sonnet.txt
     with open(content_path, "r") as f:
@@ -44,7 +53,7 @@ def run(event, context):
                         print(len(tweet))
 
                     # maybe some logic  for two lines of text?
-                    payload["status"] = tweet
+                    payload += tweet
         except Exception as e:
             print(e)
             payload["status"] = "Error: " + str(e)
@@ -54,12 +63,7 @@ def run(event, context):
     # send tweet
 
     try:
-        response = requests.post(
-            twitter_base_url + "/statuses/update.json" +
-            "?" + payload["status"],
-            headers=("Authentication", "Bearer " +
-                     os.environ["API_BEARER"]),
-        )
+        api.update_status(payload)
 
     except Exception as e:
         print(e)
